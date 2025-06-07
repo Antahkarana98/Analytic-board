@@ -1,8 +1,8 @@
 
-import { useTasksStore } from "../store/tasksStore";
+import { useTasksStore } from "@/store/tasksStore";
 import { useEffect } from "react";
-import Form from "../components/Form";
-import TaskList from "../components/TaskList";
+import Form from "@/components/Form";
+import TaskList from "@/components/TaskList";
 
 const Home = () => {
 
