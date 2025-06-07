@@ -2,11 +2,11 @@
   "tasks": [
     {
       "id": "0150fb6e-30f5-442f-9302-e1f422fc89cd",
-      "taskName": "Tarea 1",
-      "category": "Categoria 1",
-      "startDate": "2025-06-05T00:00:00.000Z",
-      "endDate": "2025-06-05T00:00:00.000Z",
-      "isCompleted": false
+      "taskName": "Tarea 4",
+      "category": "work",
+      "startDate": "2025-06-05T10:00",
+      "endDate": "2025-06-05T10:00",
+      "isCompleted": true
     },
     {
       "id": "5409fbd3-d540-499a-a416-4465d5f4a80e",
@@ -15,6 +15,14 @@
       "startDate": "2025-06-05T00:00:00.000Z",
       "endDate": "2025-06-05T00:00:00.000Z",
       "isCompleted": true
+    },
+    {
+      "id": "ce62ed7e-724d-4e9e-ba3e-64a68760e5aa",
+      "isCompleted": false,
+      "endDate": "2025-06-07T18:40",
+      "startDate": "2025-06-06T18:40",
+      "category": "work",
+      "taskName": "Camilo"
     }
   ]
 }
