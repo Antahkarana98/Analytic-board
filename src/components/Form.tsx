@@ -1,46 +1,52 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form"
+import { useTasksStore } from "@/store/tasksStore";
+import { yupSchema } from "@/schemas/yup-schema";
+import { createTask } from "@/utils/createIdTask";
+import { useTasksApi } from "@/hooks/useTaskApi";
+import type { DraftTask } from "@/types";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useTasksStore } from "../store/tasksStore";
-
-const schema = yup.object({
-  taskName: yup.string().required('La tarea es requerida'),
-  category: yup.string().required('La categoria es requerida'),
-  startDate: yup.date().required('La fecha de inicio es requerida'),
-  endDate: yup.date().required('La fecha de finalización es requerida'),
-})
+import { transformToColombiaTime } from "@/utils/formatDates";
 
 const Form = () => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema)
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    resolver: yupResolver(yupSchema)
   })
 
-  const { addTask } = useTasksStore()
+  const { addTask, updateTask, tasks,activeId } = useTasksStore()
+  const { addTaskApi, updateTaskApi } = useTasksApi();
 
-  const addTaskService = async (data: yup.InferType<typeof schema>) => {
-    //TODO: Transforma la fecha a colombia en vez del UTC
-    try {
-      const url = 'http://localhost:3001/tasks'
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+  useEffect(() => {
+    if (!activeId) return;
+
+    const activeTask = tasks.filter((task) => task.id === activeId)[0]
+    
+    reset({
+      taskName: activeTask.taskName,
+      category: activeTask.category,
+      startDate: transformToColombiaTime(new Date(activeTask.startDate)),
+      endDate: transformToColombiaTime(new Date(activeTask.endDate)),
+    });
+  }, [activeId])
+
+  const handleSubmitForm = async (data: DraftTask) => {
+    if(activeId) {
+      await updateTaskApi(activeId, data)
+      updateTask({
+        ...data,
+        isCompleted: tasks.filter((task) => task.id === activeId)[0].isCompleted
       })
-      const result = await response.json()
-      console.log(result)
-    } catch (error) {
-      console.error('Error al agregar la tarea:', error)
+    } else {
+      await addTaskApi(createTask(data))
+      addTask(createTask(data))
     }
-  }
-
-  const handleSubmitForm = async (data: yup.InferType<typeof schema>) => {
-    await addTaskService(data)
-    addTask({
-      ...data,
-      isCompleted: false
+    
+    reset({
+      taskName: '',
+      category: '',
+      startDate: '',
+      endDate: '',
     })
   }
 
@@ -59,7 +65,6 @@ const Form = () => {
             placeholder="Ingresa la tarea Ejemplo: Ir al gym"
             className="border border-gray-300 rounded"
             {...register('taskName')}
-            name="taskName"
           />
           {errors.taskName && <p>{errors.taskName.message?.toString()}</p>}
         </fieldset>
@@ -67,7 +72,10 @@ const Form = () => {
         <fieldset>
           <legend>Categoria</legend>
           <label htmlFor="category">Categoria</label>
-          <select {...register('category')}>
+          <select 
+            id="category"
+            {...register('category')}
+          >
             <option value="">Select a category</option>
             <option value="work">Work</option>
             <option value="personal">Personal</option>
@@ -93,7 +101,7 @@ const Form = () => {
           {errors.endDate && <p>{errors.endDate.message?.toString()}</p>}
         </fieldset>
         
-        <button type="submit">Crear tarea</button>
+        <button type="submit">{activeId ? 'Actualizar tarea' : 'Agregar tarea'}</button>
       </form>
     </>
   )
