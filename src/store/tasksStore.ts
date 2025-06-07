@@ -1,25 +1,17 @@
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
-import { v4 as uuidv4} from 'uuid'
 import type { DraftTask, Task } from '../types';
 
 type TaskState = {
   tasks: Task[],
   activeId: Task['id'],
   getAllTasks: (tasks: Task[]) => void,
-  addTask: (task: DraftTask) => void,
+  addTask: (task: Task) => void,
   deleteTask: (id: Task['id']) => void,
   getTaskById: (id: Task['id']) => void,
   updateTask: (task: DraftTask) => void,
 }
 
-const createTask = (task: DraftTask) => {
-  return {
-    id: uuidv4(),
-    ...task,
-    isCompleted: false
-  }
-}
 
 export const useTasksStore = create<TaskState>()(
   devtools(
@@ -27,14 +19,13 @@ export const useTasksStore = create<TaskState>()(
     tasks: [],
     activeId: '',
 
-    // Actions
-    
+    // Acciones
+
     getAllTasks: (tasks) => set(() => ({ tasks })),
 
     addTask: (data) => {
-      const newTask = createTask(data)
       set((state) => ({
-        tasks: [...state.tasks, newTask] 
+        tasks: [...state.tasks, data] 
       }))
     },
 
@@ -58,6 +49,11 @@ export const useTasksStore = create<TaskState>()(
     }
   }), {
     name: 'tasks-storage',
-    storage: createJSONStorage(() => localStorage)
+    storage: createJSONStorage(() => localStorage),
+
+    //Solo guarda tasks en el localStorage y no activeId
+    partialize: (state) => ({
+      tasks: state.tasks,
+    }),
   })
 ))
