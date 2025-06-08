@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><line x1='0' y1='0' x2='0' y2='40' stroke='%231f2124' stroke-width='1' stroke-dasharray='4,4'/><line x1='0' y1='0' x2='40' y2='0' stroke='%231f2124' stroke-width='1' stroke-dasharray='4,4'/></svg>");
+  background-size: 40px 40px;
+} 
