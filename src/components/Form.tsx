@@ -2,26 +2,30 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form"
 import { useTasksStore } from "@/store/tasksStore";
 import { yupSchema } from "@/schemas/yup-schema";
+import type { FormValues } from "@/schemas/yup-schema";
 import { createTask } from "@/utils/createIdTask";
 import { useTasksApi } from "@/hooks/useTaskApi";
 import type { DraftTask } from "@/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { transformToColombiaTime } from "@/utils/formatDates";
+import Button from "./Button";
+import Input from "./Input";
+import Select from "./Select";
 
 const Form = () => {
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
-    resolver: yupResolver(yupSchema)
-  })
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({ resolver: yupResolver(yupSchema) })
 
-  const { addTask, updateTask, tasks,activeId } = useTasksStore()
+  const { addTask, updateTask, tasks, activeId, getTaskById } = useTasksStore()
   const { addTaskApi, updateTaskApi } = useTasksApi();
 
   useEffect(() => {
     if (!activeId) return;
 
+    // Llenar la informacion del formulario cuando el activeId esta activo
     const activeTask = tasks.filter((task) => task.id === activeId)[0]
     
+    // Se utiliza reset por que es mas optimo y claro que utilizar setValues
     reset({
       taskName: activeTask.taskName,
       category: activeTask.category,
@@ -38,72 +42,92 @@ const Form = () => {
         isCompleted: tasks.filter((task) => task.id === activeId)[0].isCompleted
       })
     } else {
-      await addTaskApi(createTask(data))
-      addTask(createTask(data))
+      const task = createTask(data) // se crea un id unico para ambos metodos de guaradado
+      addTask(task)
+      await addTaskApi(task)
     }
     
+    resetForm()
+  }
+
+  // Funcion para resetear todos los campos del formulario y el activeId
+  const resetForm = () => {
     reset({
       taskName: '',
       category: '',
       startDate: '',
       endDate: '',
     })
+    getTaskById('')
   }
 
   return (
-    <>
+    <div className="flex items-center w-full h-full">
       <form 
         onSubmit={handleSubmit(handleSubmitForm)}
-        className="flex flex-col gap-3"
+        className="flex flex-col justify-center relative border-2 border-gray-900 rounded-lg p-6 w-full h-full space-y-4 bg-sky-200"  
       >
-        <fieldset>
-          <legend>Tarea</legend>
-          <label htmlFor="taskName">Tarea</label>
-          <input
-            type="text"
-            id="taskName"
-            placeholder="Ingresa la tarea Ejemplo: Ir al gym"
-            className="border border-gray-300 rounded"
-            {...register('taskName')}
-          />
-          {errors.taskName && <p>{errors.taskName.message?.toString()}</p>}
-        </fieldset>
-
-        <fieldset>
-          <legend>Categoria</legend>
-          <label htmlFor="category">Categoria</label>
-          <select 
-            id="category"
-            {...register('category')}
-          >
-            <option value="">Select a category</option>
-            <option value="work">Work</option>
-            <option value="personal">Personal</option>
-          </select>
-          {errors.category && <p>{errors.category.message?.toString()}</p>}
-        </fieldset>
-
-        <fieldset>
-          <legend>Fecha de la tarea</legend>
-          <div>
-            <label htmlFor="startDate">Fecha de inicio</label>
-            <input type="datetime-local" 
-            id="startDate"
-            {...register('startDate')} />
-          </div>
-          <div>
-            <label htmlFor="endDate">Fecha de finalización</label>
-            <input type="datetime-local" 
-            id="endDate"
-            {...register('endDate')} />
-          </div>
-          {errors.startDate && <p>{errors.startDate.message?.toString()}</p>}
-          {errors.endDate && <p>{errors.endDate.message?.toString()}</p>}
-        </fieldset>
+        <span className="absolute bottom-0 right-0 w-[101%] h-[101%] -mb-2 -mr-2 bg-gray-900 rounded-lg pointer-events-none -z-10"></span>
         
-        <button type="submit">{activeId ? 'Actualizar tarea' : 'Agregar tarea'}</button>
+        <h2 className="font-bold text-center text-3xl">{ activeId ? "Editar la tarea" : "Crear una nueva tarea" }</h2>
+
+        {activeId && (
+          <button type="button" onClick={() => resetForm()} className="absolute top-2 right-3 cursor-pointer">x</button>
+        )}
+        
+        <fieldset>
+          <Input 
+            register={ register } 
+            errors={ errors }
+            inputName="taskName"
+            placeholder="Ingresa la tarea Ejemplo: Ir al gym"
+            label="Tarea"
+            type="text"
+          />
+        </fieldset>
+
+        <fieldset>
+          <Select 
+            register={ register } 
+            errors={ errors }
+            inputName="category"
+            label="Categoria"
+          />
+        </fieldset>
+
+        <fieldset>
+          <div>
+            <Input 
+              register={ register } 
+              errors={ errors }
+              inputName="startDate"
+              placeholder="Ingresa la fecha de inicio"
+              label="Fecha de inicio"
+              type="datetime-local"
+            />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div>
+            <Input 
+              register={ register } 
+              errors={ errors }
+              inputName="endDate"
+              placeholder="Ingresa la fecha de finalización"
+              label="Fecha de finalización"
+              type="datetime-local"
+            />
+          </div>
+        </fieldset>
+
+        <div className="flex justify-center">
+          <Button type="submit">
+            {activeId ? 'Actualizar tarea' : 'Agregar tarea'}
+          </Button>
+        </div>
       </form>
-    </>
+    </div>
   )
 }
 
