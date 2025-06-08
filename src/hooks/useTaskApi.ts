@@ -1,15 +1,15 @@
 import type { DraftTask } from "@/types";
-import { createTask } from "@/utils/createIdTask";
 
 export const useTasksApi = () => {
   
+  // Funcion para crear la tarea en base de datos
   const addTaskApi = async (data: DraftTask) => {
     try {
       const url = 'http://localhost:3001/tasks';
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(createTask(data))
+        body: JSON.stringify(data)
       });
       return await response.json();
     } catch (error) {
@@ -18,6 +18,7 @@ export const useTasksApi = () => {
     }
   };
 
+  // Funcion para actualizar la tarea en base de datos
   const updateTaskApi = async (id: string, data: DraftTask) => {
     try {
       const url = `http://localhost:3001/tasks/${id}`;
@@ -33,6 +34,7 @@ export const useTasksApi = () => {
     }
   }
 
+  // Funcion para eliminar la tarea
   const deleteTaskApi = async (id: string) => {
     try {
       const url = `http://localhost:3001/tasks/${id}`;
