@@ -1,28 +1,60 @@
 {
   "tasks": [
     {
-      "id": "0150fb6e-30f5-442f-9302-e1f422fc89cd",
-      "taskName": "Tarea 4",
-      "category": "work",
-      "startDate": "2025-06-05T10:00",
-      "endDate": "2025-06-05T10:00",
-      "isCompleted": true
-    },
-    {
-      "id": "5409fbd3-d540-499a-a416-4465d5f4a80e",
-      "taskName": "Tarea 2",
-      "category": "Categoria 2",
-      "startDate": "2025-06-05T00:00:00.000Z",
-      "endDate": "2025-06-05T00:00:00.000Z",
-      "isCompleted": true
-    },
-    {
-      "id": "ce62ed7e-724d-4e9e-ba3e-64a68760e5aa",
+      "id": "10c0478c-a9d9-4c5e-b892-fd74107c4072",
       "isCompleted": false,
-      "endDate": "2025-06-07T18:40",
-      "startDate": "2025-06-06T18:40",
-      "category": "work",
-      "taskName": "Camilo"
+      "endDate": "2025-06-08T11:06",
+      "startDate": "2025-06-08T11:06",
+      "category": "Salud",
+      "taskName": "Ir al gimnasio con mi novia"
+    },
+    {
+      "id": "cc9b242a-0eef-4f9f-aaa0-fe55f3418da9",
+      "isCompleted": false,
+      "endDate": "2025-06-08T11:07",
+      "startDate": "2025-06-08T11:07",
+      "category": "Otros",
+      "taskName": "Comer"
+    },
+    {
+      "id": "644488df-9471-4510-a54e-40c2665f6273",
+      "isCompleted": true,
+      "endDate": "2025-06-08T12:09",
+      "startDate": "2025-06-08T12:08",
+      "category": "Meditación",
+      "taskName": "Caminar con el perro"
+    },
+    {
+      "id": "3d392701-3686-4134-b9af-7a40c7af7e2b",
+      "isCompleted": true,
+      "endDate": "2025-06-08T12:48",
+      "startDate": "2025-06-08T12:48",
+      "category": "Personal",
+      "taskName": "Comer ramen con mi novia"
+    },
+    {
+      "id": "c9cc0280-3098-4517-8556-ea46ba701c6d",
+      "isCompleted": false,
+      "endDate": "2025-06-08T14:16",
+      "startDate": "2025-06-08T13:16",
+      "category": "Trabajo",
+      "taskName": "Jugar videojuegos"
+    },
+    {
+      "id": "a4712dc6-5c0d-4ef5-ade9-26ff6f72b51e",
+      "isCompleted": false,
+      "endDate": "2025-06-08T13:35",
+      "startDate": "2025-06-08T13:35",
+      "category": "Personal",
+      "taskName": "Ir al gimnasio"
+    },
+    {
+      "id": "04b20adb-7069-47c2-aff9-503c2c1abb56",
+      "isCompleted": false,
+      "endDate": "2025-06-08T13:41",
+      "startDate": "2025-06-08T13:41",
+      "category": "Personal",
+      "taskName": "Ir al gimnasio"
     }
   ]
 }
