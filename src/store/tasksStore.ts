@@ -12,7 +12,6 @@ type TaskState = {
   updateTask: (task: DraftTask) => void,
 }
 
-
 export const useTasksStore = create<TaskState>()(
   devtools(
   persist((set) => ({
