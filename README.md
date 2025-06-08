@@ -27,7 +27,9 @@ cd prueba-tecnica-analytic
 Para instalar las dependencias
 
 ```bash
-npm i ó bun i
+npm i
+
+bun i
 ```
 ## 📦 Correr el proyecto
 
@@ -50,6 +52,6 @@ bun dev
 ## 📝 Notas importantes
 No olvides iniciar primero json-server antes de correr la app.
 
-Si deseas cambiar el puerto o archivo de datos de json-server, ajusta el comando en consecuencia.
+Si deseas cambiar el puerto o archivo de datos de json-server, ajusta en el package.json el comando en consecuencia.
 
 Este proyecto es compatible con npm y bun para levantar el entorno de desarrollo.
