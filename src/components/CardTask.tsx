@@ -32,7 +32,7 @@ const CardTask = ({ task }: { task: Task }) => {
   return (
     <>
       <article className="relative mb-5">
-        <div className="relative z-10 block w-full px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 border-2 border-gray-900 rounded-lg bg-sky-200">
+        <div className="relative block w-full px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 border-2 border-gray-900 rounded-lg bg-sky-200">
           <header>
             <h3 className="text-xl font-bold">{ taskName }</h3>
             <div className="absolute top-2 right-2">
@@ -71,7 +71,7 @@ const CardTask = ({ task }: { task: Task }) => {
           </div>
         </footer>
         </div>
-        <span className="absolute bottom-0 right-0 w-full h-full -mb-1.5 -mr-1.5 bg-gray-900 rounded-lg"></span>
+        <span className="absolute -z-10 bottom-0 right-0 w-full h-full -mb-1.5 -mr-1.5 bg-gray-900 rounded-lg"></span>
       </article>
     </>
   )
